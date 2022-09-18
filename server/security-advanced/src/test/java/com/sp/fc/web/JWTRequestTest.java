@@ -61,7 +61,7 @@ public class JWTRequestTest extends WebIntegrationTest {
                 .build();
     }
 
-    @DisplayName("1. hello 메시지를 받아온다... ")
+    @DisplayName("********** 1. hello 메시지를 받아온다... ********** ")
     @Test
     void test_1(){
         TokenBox token = getToken();
@@ -70,14 +70,20 @@ public class JWTRequestTest extends WebIntegrationTest {
         HttpHeaders header = new HttpHeaders();
         header.add(HttpHeaders.AUTHORIZATION, "Bearer "+token.getAuthToken());
         HttpEntity body = new HttpEntity<>(null, header);
-        ResponseEntity<String> resp2 = client.exchange(uri("/greeting"), HttpMethod.GET, body, String.class);
+
+        // 로그인 시도
+        ResponseEntity<String> resp2 = client.exchange(
+                uri("/greeting"),
+                HttpMethod.GET,
+                body,
+                String.class);
 
         assertEquals("hello", resp2.getBody());
 
     }
 
 
-    @DisplayName("2. 토큰 만료 테스트 ")
+    @DisplayName("********** 2. 토큰 만료 테스트 ********** ")
     @Test
     void test_2() throws InterruptedException {
         TokenBox token = getToken();
